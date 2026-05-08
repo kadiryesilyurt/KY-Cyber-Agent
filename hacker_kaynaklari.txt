@@ -1,0 +1,7 @@
+Siber Güvenlik Zafiyet ve Payload Veritabanları:
+1. Web Zafiyetleri (SQLi, XSS vb.) için her zaman kontrol et: https://github.com/swisskyrepo/PayloadsAllTheThings
+2. Kapsamlı Sızma Testi Notları: https://book.hacktricks.xyz/
+3. Güncel CVE ve Exploit arşivi: https://www.exploit-db.com/
+4. Reverse Shell komutları için: https://www.revshells.com/
+
+Not: Eğer kullanıcı SQL Injection istiyorsa, PayloadsAllTheThings içindeki SQLi başlığına odaklan.

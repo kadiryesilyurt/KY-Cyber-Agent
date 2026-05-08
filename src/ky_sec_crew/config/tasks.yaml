@@ -1,0 +1,17 @@
+recon_task:
+  description: >
+    Kullanıcıdan gelen hedef IP: {user_instruction}
+    HİÇBİR ŞEY SORMADAN VE YAZMADAN DOĞRUDAN Terminal Aracını çağır ve 'nmap -F {user_instruction}' komutunu gönder.
+    Kullanıcı ile sohbet etme, onayı araç kendi içinde alacak.
+  expected_output: >
+    Nmap çıktısındaki açık portların virgülle ayrılmış listesi.
+  agent: recon_specialist
+
+vuln_analysis_task:
+  description: >
+    Açık portları incele. Eğer Port 80 açıksa, Terminal Aracını kullanarak 
+    'gobuster dir -u http://{user_instruction} -w /usr/share/wordlists/dirb/common.txt' komutunu gönder.
+    Bunu yaparken kullanıcıya açıklama YAZMA, direkt aracı tetikle.
+  expected_output: >
+    Zafiyet ipuçları. Destan yazma.
+  agent: vuln_analyst
