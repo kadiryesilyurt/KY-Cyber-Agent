@@ -1,4 +1,0 @@
-Hedef IP: 10.113.154.146
-Açık Portlar: 21, 80
-Olası Zafiyetler: /simple/ dizini üzerinde web uygulaması zafiyetleri, /robots.txt üzerinde bilgi ifşası.
-Tahmin edilen şifreler/kullanıcı adları: Tespit edilemedi.

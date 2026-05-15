@@ -1,7 +1,7 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import FileReadTool, FileWriterTool
-from .tools.custom_tool import NmapTaramaAraci, OzelAramaAraci
+from .tools.custom_tool import NmapTaramaAraci, OzelAramaAraci, DerinWebAnalizAraci
 
 # 1. MOTORLARI TANIMLIYORUZ (En hızlı Flash Lite Preview)
 isci_llm = "gemini/gemini-3.1-flash-lite"
@@ -10,6 +10,7 @@ yonetici_llm = "gemini/gemini-3.1-flash-lite"
 arama_motoru = OzelAramaAraci()
 dosya_okuyucu = FileReadTool()
 dosya_not_yazici = FileWriterTool() # Sadece kritik notları yazacak silahımız
+
 
 @CrewBase
 class KySecCrew():
@@ -33,7 +34,7 @@ class KySecCrew():
         return Agent(
             config=self.agents_config['vuln_analyst'],
             llm=isci_llm,
-            tools=[arama_motoru, dosya_okuyucu,NmapTaramaAraci()],
+            tools=[arama_motoru, dosya_okuyucu,NmapTaramaAraci(), DerinWebAnalizAraci()],
             verbose=False
         )
 
@@ -88,5 +89,5 @@ class KySecCrew():
             process=Process.hierarchical,
             manager_llm=yonetici_llm,
             memory=False, # Donanım hatasını önlemek için kapalı kalsın
-            verbose=False # Pavyon ışıklarını (gereksiz loglar) kapatıyoruz
+            verbose=True # Pavyon ışıklarını (gereksiz loglar) kapatıyoruz
         )

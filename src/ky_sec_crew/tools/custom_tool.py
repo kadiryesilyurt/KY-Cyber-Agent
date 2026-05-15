@@ -1,6 +1,10 @@
 import subprocess
 import sys
 from crewai.tools import BaseTool
+import requests
+import pyautogui
+import time
+import os
 
 class NmapTaramaAraci(BaseTool):
     name: str = "terminal_araci"
@@ -49,3 +53,56 @@ class OzelAramaAraci(BaseTool):
         search = DuckDuckGoSearchRun()
         print(f"\n[*] Ajan sessizce internette araştırıyor: {query} ...")
         return search.run(query)
+    
+class DerinWebAnalizAraci(BaseTool):
+    name: str = "derin_web_analiz_araci" 
+    description: str = "Hedef web dizininin HTML kaynak kodunu analiz eder ve aktif ekranın görsel kaydını (screenshot) alarak kanıt oluşturur."
+    
+    def _run(self, url: str) -> str:
+        # Kurumsal Terminal Renkleri
+        C_CYAN = '\033[96m'
+        C_GREEN = '\033[92m'
+        C_RESET = '\033[0m'
+
+        print(f"\n{C_CYAN}============================================================{C_RESET}")
+        print(f"{C_CYAN}[SİSTEM TAVSİYESİ]: Ajan {url} adresinde potansiyel bilgi/zafiyet sezdi.{C_RESET}")
+        print(f"{C_GREEN}Tavsiye: Gelişmiş Web Analizi (Görsel Kayıt + Kaynak Kod İncelemesi){C_RESET}")
+        print(f"{C_CYAN}============================================================{C_RESET}")
+        
+        onay = input("Analizi başlatmak için terminale 'analiz' veya 'Y' yazın: ")
+        
+        if onay.lower() == 'analiz' or onay.lower() == 'y':
+            print("\n[*] Lütfen tarayıcıda ilgili sekmeyi aktif edin. Görsel kayıt 3 saniye içinde alınacaktır.")
+            time.sleep(1)
+            print("3...")
+            time.sleep(1)
+            print("2...")
+            time.sleep(1)
+            print("1...")
+            print("[*] Görsel kanıt kaydediliyor...\n")
+            
+            # 1. Aşama: Görsel Kanıt
+            try:
+                screenshot = pyautogui.screenshot()
+                screenshot.save("kanit_ekran.png")
+                foto_durum = "Ekran görseli 'kanit_ekran.png' olarak başarıyla oluşturuldu."
+                print(f"[+] {foto_durum}")
+            except Exception as e:
+                foto_durum = f"Görsel kayıt alınamadı: {e}"
+                print(f"[-] {foto_durum}")
+
+            # 2. Aşama: Kaynak Kod İncelemesi
+            print("[*] Kaynak kod (HTML) analizi arka planda başlatılıyor...")
+            try:
+                response = requests.get(url, timeout=5)
+                html_content = response.text
+                snippet = html_content[:2500] 
+                
+                print("[+] Kaynak kod başarıyla çekildi. Ajan analize başlıyor...\n")
+                
+                return f"Operasyon sonucu: {foto_durum}\n\nİşte hedefin HTML kaynak kodunun bir kısmı:\n{snippet}\n\nGÖREV: Bu HTML kodu içinde gizli bir yorum satırı (), 'password', 'admin', 'version' gibi kritik veya unutulmuş bir bilgi var mı? Varsa YALNIZCA TEK BİR CÜMLE ile kullanıcıya özetle."
+                
+            except Exception as e:
+                return f"Kaynak koda ulaşılamadı: {e}"
+        else:
+            return "Kullanıcı analiz operasyonunu reddetti. Farklı bir vektör öner."
