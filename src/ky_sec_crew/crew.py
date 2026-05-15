@@ -4,9 +4,8 @@ from crewai_tools import FileReadTool, FileWriterTool
 from .tools.custom_tool import NmapTaramaAraci, OzelAramaAraci
 
 # 1. MOTORLARI TANIMLIYORUZ (En hızlı Flash Lite Preview)
-isci_llm = "gemini/gemini-3.1-flash-lite-preview"
-yonetici_llm = "gemini/gemini-3.1-flash-lite-preview"
-
+isci_llm = "gemini/gemini-3.1-flash-lite"
+yonetici_llm = "gemini/gemini-3.1-flash-lite"
 # Araçlarımızı hazır ediyoruz
 arama_motoru = OzelAramaAraci()
 dosya_okuyucu = FileReadTool()
@@ -89,5 +88,5 @@ class KySecCrew():
             process=Process.hierarchical,
             manager_llm=yonetici_llm,
             memory=False, # Donanım hatasını önlemek için kapalı kalsın
-            verbose=True # Pavyon ışıklarını (gereksiz loglar) kapatıyoruz
+            verbose=False # Pavyon ışıklarını (gereksiz loglar) kapatıyoruz
         )

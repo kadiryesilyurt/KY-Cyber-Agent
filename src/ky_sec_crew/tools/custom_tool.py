@@ -3,14 +3,21 @@ import sys
 from crewai.tools import BaseTool
 
 class NmapTaramaAraci(BaseTool):
-    name: str = "Terminal Araci"
+    name: str = "terminal_araci"
     description: str = "Sisteme nmap, gobuster gibi terminal komutları gönderir."
     
     def _run(self, command: str) -> str:
-        print(f"\n============================================================")
-        print(f"[SİSTEM TAVSİYESİ]: Ajan şu komutu ateşlemek istiyor:")
-        print(f"Komut: {command}")
-        print(f"============================================================")
+        # Renk kodları (ANSI Escape Codes)
+        C_CYAN = '\033[96m'
+        C_GREEN = '\033[92m'
+        C_RESET = '\033[0m'
+        
+        print(f"\n{C_CYAN}============================================================{C_RESET}")
+        print(f"{C_CYAN}[SİSTEM TAVSİYESİ]: Ajan şu komutu ateşlemek istiyor:{C_RESET}")
+        # İŞTE BURASI: Komut yemyeşil yazacak!
+        print(f"{C_GREEN}Komut: {command}{C_RESET}") 
+        print(f"{C_CYAN}============================================================{C_RESET}")
+        
         onay = input("Onaylıyor musun? (Y/N): ")
         
         if onay.lower() == 'y':
